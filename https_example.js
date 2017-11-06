@@ -7,9 +7,26 @@ var options = {
   path: '/'
 };
 
+
+
+// MAIN HTTP "RESPONSE HANDLER" CALLBACK FUNC
 var callback = function(response){
+
   console.log('In response handler callback');
-  console.log('Response: ', response);
+
+  // let responseString = '';
+
+  response.on('data', (chunk) => {
+    console.log('[-- Chunk of Length ' + chunk.length + ' --]');
+    // responseString += chunk; //so, this sets the responseString var to whatever chunk returns, and resets each call?
+    console.log('data chunk: ', chunk.toString());
+  });
+
+  // response.on('end', () => {
+  //   const responseBodyObject = JSON.parse(responseString);
+  //   console.log('Response: ', responseBodyObject);
+  // });
+
 }
 
 console.log("i'm about to make the request"); // runs second
