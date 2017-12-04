@@ -1,36 +1,35 @@
 const https = require('https');
 
-console.log("I did it!"); // run first
+// console.log("I did it!"); // run first
 
 var options = {
   host: 'stream-large-file.herokuapp.com',
   path: '/give-me-stuff-now'
 };
 
+// var callback = (response) => {
 
+//   console.log('In response handler callback');
 
-// MAIN HTTP "RESPONSE HANDLER" CALLBACK FUNC
-var callback = function(response){
+//   response.on('data', (chunk) => {
+//     console.log(`[-- CHUNK OF LENGTH ${chunk.length} --]`)
+//     // responseString += chunk; //so, this sets the responseString var to whatever chunk returns, and resets each call?
+//     console.log('data chunk: ', chunk.toString());
+//   });
 
-  console.log('In response handler callback');
-
-  // let responseString = '';
-
-  response.on('data', (chunk) => {
-    console.log('[-- Chunk of Length ' + chunk.length + ' --]');
-    // responseString += chunk; //so, this sets the responseString var to whatever chunk returns, and resets each call?
-    console.log('data chunk: ', chunk.toString());
-  });
-
-  // response.on('end', () => {
-  //   const responseBodyObject = JSON.parse(responseString);
-  //   console.log('Response: ', responseBodyObject);
-  // });
-
-}
+// }
 
 console.log("i'm about to make the request"); // runs second
 
-https.request(options, callback).end(); //runs fourth, goes fifth into callback anon func -> returns log
+https.request(options, (response) => {
 
-console.log("i've made the request"); // runs third
+  console.log('In response handler callback');
+
+  response.on('data', (chunk) => {
+    console.log(`[-- CHUNK OF LENGTH ${chunk.length} --]`)
+    console.log('data chunk: ', chunk.toString());
+  });
+
+}).end();
+
+console.log("i've made the request");
